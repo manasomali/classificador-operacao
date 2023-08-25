@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+    <div id="loading"></div>
+    <div class="img-header">
+        <div class="img">
+            <a href="https://gese.florianopolis.ifsc.edu.br" target="_blank"><img src="{{ url_for('static', filename='img/gese.png') }}" alt=""></a>
+        </div>
+        <div class="img-title">
+            <h1 class="title">Sistema para classificação da comunicação verbal na operação do setor elétrico</h1>
+        </div>
+        <div class="img">
+            <a href="https://www.ifsc.edu.br" target="_blank"><img src="{{ url_for('static', filename='img/ifsc.jpg') }}" alt=""></a>
+        </div>
+    </div>   
+    <div class="banner">
+        <p class="upper">Sistema desenvolvido com Python destinado a classificação da operação do setor elétrico com múltiplos modelos de aprendizado de máquina capazes de resolver problemas de classificação multiclasse. A entrada de dados pode ser no formato de texto ou de áudio (transcrição de fala ou de um arquivo).</p>
+    </div> 
+    <form action="{{ url_for('home') }}" method="post">
+    <div class="login">
+        <div class="login-wrapper">
+            <div class="smallbtns">
+                <button onclick="emailExist()" type="submit" name="tela" value="tutorial" class="autobntright yellow">?</button>
+                <button onclick="emailExist()" type="submit" name="tela" value="sobre" class="autobntleft yellow">!</button>
+            </div>
+            <input class="inputemail" type="text" name="email" id="email" placeholder="e-mail">
+            <button onclick="emailExist()" type="submit" name="tela" value="texto" class="bnt primary">Texto</button>
+            <button onclick="emailExist()" type="submit" name="tela" value="audio" class="bnt primary">Áudio</button>
+            <button onclick="emailExist()" type="submit" name="tela" value="classificacoes" class="bnt yellow last">Classificações</button>
+        </div>
+    </div>
+    </form>
+    <div id="tooltiptext"><span>Informe o email.</span></div>
+    <div class="img-wrapper">
+        <div class="img">
+            <a href="https://flask.palletsprojects.com" target="_blank"><img src="{{ url_for('static', filename='img/fask-logo.png') }}" alt=""></a>
+        </div>
+        <div class="img">
+            <a href="https://www.python.org" target="_blank"><img src="{{ url_for('static', filename='img/python-logo.png') }}" alt=""></a>
+        </div>
+        <div class="img">
+            <a href="https://scikit-learn.org" target="_blank"><img src="{{ url_for('static', filename='img/scikit-learn-logo.png') }}" alt=""></a>
+        </div>
+        <div class="img">
+            <a href="https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/" target="_blank"><img src="{{ url_for('static', filename='img/logo-js-css-html.png') }}" alt=""></a>
+        </div>
+        <div class="img">
+            <a href="https://wit.ai" target="_blank"><img src="{{ url_for('static', filename='img/wit-ai-logo.png') }}" alt=""></a>
+        </div>
+        <div class="img">
+            <a href="https://idmnyu.github.io/p5.js-speech/" target="_blank"><img src="{{ url_for('static', filename='img/p5speech-logo.png') }}" alt=""></a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let input = document.querySelector("#email");
+    
+    
+        function emailExist() {
+            if (document.querySelector("#email").value==="") {
+                document.getElementById("tooltiptext").style.visibility = "visible";
+                setTimeout(function(){ document.getElementById("tooltiptext").style.visibility = "hidden"; }, 1500)
+            } else {
+                loading()
+            }
+        }
+
+        function loading() {
+            document.querySelector("#email").readOnly = true;
+            document.getElementById("loading").style.visibility = 'visible';
+        } 
+        
+    </script>
+{% endblock content %}

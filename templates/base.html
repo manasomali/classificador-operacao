@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Sistema para classificação da comunicação verbal na operação do setor elétrico</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="container">
+        <!-- child template -->
+        {% block content %}{% endblock %}
+
+        <!-- errors -->
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{ error }}</p>
+        {% endif %}
+
+        <!-- messages -->
+        {% for message in get_flashed_messages() %}
+            {{ message }}
+        {% endfor %}
+    </div>
+    <!-- p5speech -->
+    <script src="{{ url_for('static', filename='js/p5/p5.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/p5/p5.speech.js')}}"></script>
+
+</body>
+</html>

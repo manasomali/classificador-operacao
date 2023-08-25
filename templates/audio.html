@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+    <div id="loading"></div>
+    <div class="header">Classificação por Áudio</div>
+    <div class="banner-texto">
+        <form action="{{ url_for('texto') }}" method="post">
+            <p class="normal">Informe o texto da comunicação verbal para a realização da classificação. É possivel identificar 12 classes: 
+            <button class="opcoesclasse" name="classe" value="0" type="submit">carga</button>, 
+            <button class="opcoesclasse" name="classe" value="1" type="submit">comprovação de disponibilidade</button>, 
+            <button class="opcoesclasse" name="classe" value="2" type="submit">controle de geração</button>, 
+            <button class="opcoesclasse" name="classe" value="3" type="submit">controle de tensão</button>, 
+            <button class="opcoesclasse" name="classe" value="4" type="submit">controle de transmissão</button>, 
+            <button class="opcoesclasse" name="classe" value="5" type="submit">conversora</button>, 
+            <button class="opcoesclasse" name="classe" value="6" type="submit">falha de supervisão</button>, 
+            <button class="opcoesclasse" name="classe" value="7" type="submit">hidrologia</button>, 
+            <button class="opcoesclasse" name="classe" value="8" type="submit">horário</button>, 
+            <button class="opcoesclasse" name="classe" value="9" type="submit">intervenção</button>, 
+            <button class="opcoesclasse" name="classe" value="10" type="submit">teste de comunicação</button> e 
+            <button class="opcoesclasse" name="classe" value="11" type="submit">sem informação</button>.
+            </p>
+        </form>
+        <div id="tooltiptext">
+            <span id="msg">{{ msg }}</span>
+        </div>
+        <form action="{{ url_for('audio') }}" method="POST" enctype="multipart/form-data">
+            <div class="button-wrap">
+                <label class ="new-button" for="upload"> Upload </label>
+                <input id="upload" name="file" type="file" >
+            </div>
+            <div class="login">
+                <button id="transcrever" class="bnt primary right" type="submit">Transcrever</button>
+            </div>
+        </form>
+        <div>
+            <a href="{{ url_for('home') }}" class="bnt yellow left">Voltar</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let input = document.querySelector("#upload");
+        let button = document.querySelector("#button");
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            stateHander()
+        }, false);
+
+        function stateHander() {
+            if (document.getElementById("msg").innerHTML!="") {
+                console.log(document.getElementById("msg").innerHTML)
+                document.getElementById("tooltiptext").style.visibility = "visible";
+                setTimeout(function(){ document.getElementById("tooltiptext").style.visibility = "hidden"; }, 1500)
+            }
+        }
+        document.querySelector("#transcrever").addEventListener('click', function() {
+            document.getElementById("loading").style.visibility = 'visible';
+        }, false);
+    
+    </script>
+{% endblock content %}

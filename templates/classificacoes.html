@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Sistema para classificação da comunicação verbal na operação do setor elétrico</h1>
+    <div class="resultadoshistoricohead">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data e Hora</th>
+                    <th>Amostra Original</th>
+                    <th>Amostra Tratada</th>
+                    <th>Categoria <br> Informada</th>
+                    <th>Categoria <br> ComplementNB</th>
+                    <th>Categoria <br> LinearSVC</th>
+                    <th>Categoria <br> SGDClassifier</th>
+                    <th>Categoria <br> KNeighborsClassifier</th>
+                    <th>Categoria <br> MLPClassifier</th>
+                    <th>Categoria <br> RandomForestClassifier</th>
+                </tr>
+                </thead>
+        </table>
+    </div>
+    <div class="resultadoshistorico">
+        <table>
+            <tbody>
+            {% for registro in registros %}
+                <tr>
+                    <td><div>{{registro[2]}}</div></td>
+                    <td><div>{{registro[3]}}</div></td>
+                    <td><div>{{registro[4]}}</div></td>
+                    <td><div>{{dic_num_to_prettyclass[registro[5]]}}</div></td>
+                    <td><div>{{dic_num_to_prettyclass[registro[6]]}}</div></td>
+                    <td><div>{{dic_num_to_prettyclass[registro[7]]}}</div></td>
+                    <td><div>{{dic_num_to_prettyclass[registro[8]]}}</div></td>
+                    <td><div>{{dic_num_to_prettyclass[registro[9]]}}</div></td>
+                    <td><div>{{dic_num_to_prettyclass[registro[10]]}}</div></td>
+                    <td><div>{{dic_num_to_prettyclass[registro[11]]}}</div></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="login">
+        <a href="{{ url_for('home') }}" class="bnt yellow">Voltar</a>
+        <a href="{{ url_for('download') }}" class="bnt primary">Download</a>
+    </div>
+{% endblock content %}

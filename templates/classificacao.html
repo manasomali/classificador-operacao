@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+    <div id="loading"></div>
+    <h1>Sistema para classificação da comunicação verbal na operação do setor elétrico</h1>
+    <form action="{{ url_for('classificacoes') }}" method="post">
+    <div class="banner">
+        <input type="hidden" name="textooriginal" value="{{ texto_original }}">
+        <input type="hidden" name="textoprocessado" value="{{ texto_tratado }}">
+        <textarea class="areatexto" disabled>{{texto_tratado}}</textarea>
+    </div>
+        <div class="classificacoes">
+            <div class="resultadosmodelos">
+                <table>
+                    <div class="titulos">CLASSIFICAÇÃO ESTIMADA:</div>
+                    <tr>
+                        <td>ComplementNB:</td>
+                        <input name="classecomplementnb" type="hidden" value="{{ predict_ComplementNB }}">
+                        <td>{{predict_ComplementNB}}</td>
+                    </tr>
+                    <tr>
+                        <td>LinearSVC:</td>
+                        <input name="classelinearsvc" type="hidden" value="{{ predict_LinearSVC }}">
+                        <td>{{predict_LinearSVC}}</td>
+                    </tr>
+                        <td>SGDClassifier:</td>
+                        <input name="classsgdclassifier" type="hidden" value="{{ predict_SGDClassifier }}">
+                        <td>{{predict_SGDClassifier}}</td>
+                    </tr>
+                    <tr>
+                        <td>KNeighborsClassifier:</td>
+                        <input name="classekneighborsclassifier" type="hidden" value="{{ predict_KNeighborsClassifier }}">
+                        <td>{{predict_KNeighborsClassifier}}</td>
+                    </tr>
+                    <tr>
+                        <td>MLPClassifier:</td>
+                        <input name="classemlpclassifier" type="hidden" value="{{ predict_MLPClassifier }}">
+                        <td>{{predict_MLPClassifier}}</td>
+                    </tr>
+                    <tr>
+                        <td>RandomForestClassifier:</td>
+                        <input name="classerandomforestclassifier" type="hidden" value="{{ predict_RandomForestClassifier }}">
+                        <td>{{predict_RandomForestClassifier}}</td>
+                    </tr>          
+                </table>
+            </div>
+            <div id="tooltiptext">
+                <span>Informe a classe verdadeira.</span>
+            </div>
+            <div class="classeinformada">
+                <div class="titulos">CLASSIFICAÇÃO INFORMADA:</div>
+                <select name="classeinformada" id="classeinformada">
+                    <option value="" selected disabled hidden>Classe</option>
+                    <option value="0">Carga</option>
+                    <option value="1">Comprovação de Disponibilidade</option>
+                    <option value="2">Controle de Geração</option>
+                    <option value="3">Controle de Tensão</option>
+                    <option value="4">Controle de Transmissão</option>
+                    <option value="5">Conversora</option>
+                    <option value="6">Falha de Supervisão</option>
+                    <option value="7">Hidrologia</option>
+                    <option value="8">Horário</option>
+                    <option value="9">Sem Informação</option>
+                    <option value="10">Intervenção</option>
+                    <option value="11">Teste de Comunicação</option>
+                </select>
+            </div>
+        </div>
+        <div class="login">
+            <a href="{{ url_for('home') }}" class="bnt yellow">Cancelar</a>
+            <button class="bnt primary" id="button" name="tela" value="salvar" type="submit"><span onclick="showToolTip()">Salvar</span></button>
+        </div>
+    </form>
+    
+    <script type="text/javascript">
+        let input = document.querySelector("#classeinformada");
+        let button = document.querySelector("#button");
+
+        button.disabled = true;
+        
+        input.addEventListener("input", stateHandle, false);
+
+        function stateHandle() {
+            if (document.querySelector("#classeinformada").value === "") {
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+            }
+        }
+        function showToolTip() {
+            if(button.disabled) {
+                document.getElementById("tooltiptext").style.visibility = "visible";
+                setTimeout(function(){ document.getElementById("tooltiptext").style.visibility = "hidden"; }, 1500)
+            }
+            else {
+                loading();
+            }
+        }
+        function loading() {
+            document.getElementById("loading").style.visibility = 'visible';
+        }
+    </script>
+{% endblock content %}

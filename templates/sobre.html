@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Sistema para classificação da comunicação verbal na operação do setor elétrico</h1>
+    <div class="banner">
+        <p class="normal">Sistema desenvolvido com Python destinado a classificação da operação do setor elétrico com múltiplos modelos de aprendizado de máquina capazes de resolver problemas de classificação multiclasse. A entrada de dados pode ser no formato de texto ou de áudio (transcrição de fala ou de um arquivo).</p>
+    </div>
+    <div>
+        <form action="{{ url_for('texto') }}" method="post">
+            <p class="normal">É possível classificar as amostras dentre doze classes: 
+            <button class="opcoesclassesobre" name="classe" value="0" type="submit">carga</button>, 
+            <button class="opcoesclassesobre" name="classe" value="1" type="submit">comprovação de disponibilidade</button>, 
+            <button class="opcoesclassesobre" name="classe" value="2" type="submit">controle de geração</button>, 
+            <button class="opcoesclassesobre" name="classe" value="3" type="submit">controle de tensão</button>, 
+            <button class="opcoesclassesobre" name="classe" value="4" type="submit">controle de transmissão</button>, 
+            <button class="opcoesclassesobre" name="classe" value="5" type="submit">conversora</button>, 
+            <button class="opcoesclassesobre" name="classe" value="6" type="submit">falha de supervisão</button>, 
+            <button class="opcoesclassesobre" name="classe" value="7" type="submit">hidrologia</button>, 
+            <button class="opcoesclassesobre" name="classe" value="8" type="submit">horário</button>, 
+            <button class="opcoesclassesobre" name="classe" value="9" type="submit">intervenção</button>, 
+            <button class="opcoesclassesobre" name="classe" value="10" type="submit">teste de comunicação</button> e 
+            <button class="opcoesclassesobre" name="classe" value="11" type="submit">sem informação</button>.
+            Usando seis estimadores: 
+            <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.ComplementNB.html" target="_blank">ComplementNB</a>,
+            <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html" target="_blank">KNeighborsClassifier</a>, 
+            <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html" target="_blank">LinearSVC</a>,
+            <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html" target="_blank">MLPClassifier</a>,
+            <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html" target="_blank">RandomForestClassifier</a> e
+            <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html" target="_blank">SGDClassifier</a>.
+            </p>
+        </form>
+        <p class="normal">
+            Modelos foram treinados usando transcrições da comunicação verbal da operação do setor elétrico. Total de 1500 amostras foram rotuladas e dividas para treino e teste usando a proporção 80:20. usando o método de validação cruzada (<a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html" target="_blank">KFold</a>) junto com uma busca exaustiva pelos parâmetros (<a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html" target="_blank">GridSearchCV</a>) foi encontrado o modelo com a combinação de parâmetros com maior acerto nos dados de teste.
+        </p>
+        <img src="{{ url_for('static', filename='img/cv.png') }}" alt="" class="center"></a>
+        <p class="normal">
+            A performance dos modelos pode ser evidenciada usando métricas para avaliação de aprendizado de máquina (<a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html" target="_blank">acurácia</a>, 
+                <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html" target="_blank">precisão</a>, 
+                <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html" target="_blank">recall</a> e
+                <a class="opcoesclassesobre" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html" target="_blank">f1</a>).
+        </p>
+        <img src="{{ url_for('static', filename='img/heatmapsgeral.png') }}" alt="" class="center" width="50%"></a>
+        <p class="normal">
+            Adicionalmente, é possível exibir a performance por modelo e por classe.
+        </p>
+        <img src="{{ url_for('static', filename='img/heatmaps.png') }}" alt="" class="center" width="90%"></a>
+    </div>
+    <div>
+        <a href="{{ url_for('home') }}" class="bnt yellow left">Voltar</a>
+    </div>
+{% endblock content %}
+
+
+

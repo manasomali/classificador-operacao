@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block content %}
+    <div id="loading"></div>
+    <div class="header">Classificação por Texto</div>
+    <div class="banner-texto">
+        <form action="{{ url_for('texto') }}" method="post">
+            <p class="normal">Informe o texto da comunicação verbal para a realização da classificação. É possível identificar 12 classes: 
+            <button class="opcoesclasse" name="classe" value="0" type="submit">carga</button>, 
+            <button class="opcoesclasse" name="classe" value="1" type="submit">comprovação de disponibilidade</button>, 
+            <button class="opcoesclasse" name="classe" value="2" type="submit">controle de geração</button>, 
+            <button class="opcoesclasse" name="classe" value="3" type="submit">controle de tensão</button>, 
+            <button class="opcoesclasse" name="classe" value="4" type="submit">controle de transmissão</button>, 
+            <button class="opcoesclasse" name="classe" value="5" type="submit">conversora</button>, 
+            <button class="opcoesclasse" name="classe" value="6" type="submit">falha de supervisão</button>, 
+            <button class="opcoesclasse" name="classe" value="7" type="submit">hidrologia</button>, 
+            <button class="opcoesclasse" name="classe" value="8" type="submit">horário</button>, 
+            <button class="opcoesclasse" name="classe" value="9" type="submit">intervenção</button>, 
+            <button class="opcoesclasse" name="classe" value="10" type="submit">teste de comunicação</button> e 
+            <button class="opcoesclasse" name="classe" value="11" type="submit">sem informação</button>.
+            </p>
+        </form>
+        <button id="recButton" class="notRec teste" onclick="botaoRecord()"></button>
+        <div id="tooltiptext">
+            <span id="msg">{{ msg }}</span>
+        </div>
+        <form action="{{ url_for('classificacao') }}" method="post">
+            <textarea class="require" id="texto" name="textoinput">{{text}}</textarea>
+            <div>
+                <button class="bnt primary right" id="button" type="submit"><span id="triger">Classificar</span></button>
+            </div>
+        </form>
+        <div>
+            <a href="{{ url_for('home') }}" class="bnt yellow left">Voltar</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let input = document.querySelector("#texto");
+        let button = document.getElementById("button");
+
+        button.disabled = true;
+
+        document.querySelector("#triger").addEventListener("click", stateHander, false);
+        function stateHander() {
+            if (document.querySelector("#texto").innerHTML.split(" ").length>2||document.querySelector("#texto").value.split(" ").length>2) {
+                loading()
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+                document.getElementById("tooltiptext").innerHTML = '<span>Informe o texto com no minimo três palavras.</span>';
+                document.getElementById("tooltiptext").style.visibility = "visible";
+                setTimeout(function(){ document.getElementById("tooltiptext").style.visibility = "hidden"; }, 1500)
+            }
+        }
+
+        function loading() {
+            document.querySelector("#texto").readOnly = true;
+            document.querySelectorAll('button.opcoesclasse').forEach(elem => {
+                elem.disabled = true;
+            });
+            document.getElementById("loading").style.visibility = 'visible';
+        }
+        function setup() {
+            var myRec = new p5.SpeechRec('pt-BR',gotSpeech);
+            var element = document.getElementById("recButton");
+            if(element.classList.contains("notRec")) {
+                if(!element.classList.contains("teste")){
+                    myRec.start();
+                }
+            }
+        
+            function gotSpeech() {
+                if(myRec.resultValue){
+                    var texto=document.getElementById("texto").value;
+                    if(texto=='') {
+                        document.getElementById("texto").innerHTML=myRec.resultString;
+                    }
+                    else {
+                        document.getElementById("texto").innerHTML=document.getElementById("texto").innerHTML+' '+myRec.resultString;
+                    }   
+                }
+            }
+            myRec.onEnd = voltaBotao;
+
+        }
+        function voltaBotao() {
+            var element = document.getElementById("recButton");
+            if(element.classList.contains("Rec"))
+            {
+                element.classList.add("notRec");
+                element.classList.remove("Rec");
+            }
+        }
+        function botaoRecord() {
+            suportSpeechRec();
+            var element = document.getElementById("recButton");
+            if(element.classList.contains("Rec"))
+            {
+                element.classList.add("notRec");
+                element.classList.remove("Rec");
+            }
+            else
+            {
+                element.classList.remove("teste");
+                setup();
+                element.classList.remove("notRec");
+                element.classList.add("Rec");
+            }
+        }
+        function suportSpeechRec() {
+            if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) )
+            {
+                document.getElementById("tooltiptext").innerHTML = '<span>Speech Recognition API não suportada.</span>';
+                document.getElementById("tooltiptext").style.visibility = "visible";
+                setTimeout(function(){ document.getElementById("tooltiptext").style.visibility = "hidden"; }, 1500)
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            stateHanderOnStart()
+        }, false);
+
+        function stateHanderOnStart() {
+            if (document.getElementById("msg").innerHTML!="") {
+                console.log(document.getElementById("msg").innerHTML)
+                document.getElementById("tooltiptext").style.visibility = "visible";
+                setTimeout(function(){ document.getElementById("tooltiptext").style.visibility = "hidden"; }, 1500)
+            }
+        }
+    </script>
+{% endblock content %}

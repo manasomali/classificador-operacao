@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %} 
+<p class="center-tutorial">Pronto, agora você sabe como utilizar o sistema. Volte para iniciar seus testes.</p>
+    <div class="banner-tutorial">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide1.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide2.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide3.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide4.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide5.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide6.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide7.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide8.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide9.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide10.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide11.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide12.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide13.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide14.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide15.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide16.JPG') }}" alt="">
+        <img class="slides" src="{{ url_for('static', filename='img/Slide17.JPG') }}" alt="">
+    </div>
+    
+    <a class="btn-tutorial prev" onclick="plusDivs(-1)">&#10094;</a>
+    <a class="btn-tutorial next" onclick="plusDivs(+1)">&#10095;</a>
+    <form action="{{ url_for('home') }}" method="post" class="header-tutorial">
+        <button type="submit" class="header-tutorial">Voltar</button>
+    </form>
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+        
+        function plusDivs(n) {
+          showDivs(slideIndex += n);
+        }
+        
+        function showDivs(n) {
+          var i;
+          var x = document.getElementsByClassName("slides");
+          if (n > x.length) {slideIndex = 0;}
+          if (n < 1) {slideIndex = x.length}
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+          }
+          x[slideIndex-1].style.display = "block";  
+        }
+    </script>
+{% endblock content %}
